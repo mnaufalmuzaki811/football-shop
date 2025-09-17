@@ -10,6 +10,7 @@ def show_main(request):
         'app_name' : 'NOPALZ SPORTY',
         'name': 'Muhammad Naufal Muzaki',
         'npm': '2406428794',
+        'class': 'PBP A',
         'product_list': product_list 
     }
 
