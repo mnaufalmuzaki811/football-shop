@@ -4,3 +4,49 @@
 <p>{{ name }}</p>
 <h3>NPM: </h3>
 <p>{{ npm }}</p>
+
+<a href="{% url 'main:create_products' %}">
+  <button>+ Add Products</button>
+</a>
+
+<hr>
+
+{% if not product_list %}
+<p>Belum ada data produk pada football shop yang ditambahkan.</p>
+{% else %}
+
+{% for product in product_list %}
+<div>
+  <h2><a href="{% url 'main:show_products' product.id %}">{{ product.name }}</a></h2>
+
+  <p>
+    <b>Category: {{ product.category }}</b>
+    {% if product.is_featured %} | <b>Featured</b>{% endif %}
+    {% if product.stock == 0 %} | <b style="color:red;">Out of Stock</b>{% else %} | Stock: {{ product.stock }}{% endif %}
+    | <i>Added at : {{ product.created_at|date:"d M Y H:i" }}</i>
+  </p>
+
+  {% if product.thumbnail %}
+  <img src="{{ product.thumbnail }}" alt="thumbnail" width="150" height="100">
+  <br />
+  {% endif %}
+
+  <p>{{ product.description|truncatewords:25 }}...</p>
+
+  <p>
+    {% if product.discount > 0 %}
+      <del>Rp {{ product.price }}</del> 
+      <b>Rp {{ product.final_price|floatformat:0 }}</b>
+      ({{ product.discount }}% OFF)
+    {% else %}
+      <b>Rp {{ product.price }}</b>
+    {% endif %}
+  </p>
+
+  <p><a href="{% url 'main:show_products' product.id %}"><button>Read More</button></a></p>
+</div>
+
+<hr>
+{% endfor %}
+
+{% endif %}

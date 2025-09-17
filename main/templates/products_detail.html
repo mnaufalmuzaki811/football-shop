@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<p><a href="{% url 'main:show_main' %}"><button>← Back to Products List</button></a></p>
+
+<h1>{{ product.name }}</h1>
+
+<p>
+    <b>Category: {{ product.category }}</b>
+    {% if product.is_featured %} | <b>Featured</b>{% endif %}
+    {% if product.stock == 0 %} | <b style="color:red;">Out of Stock</b>{% else %} | Stock: {{ product.stock }}{% endif %}
+    | <i>Added at : {{ product.created_at|date:"d M Y H:i" }}</i>
+</p>
+
+{% if product.thumbnail %}
+<img src="{{ product.thumbnail }}" alt="Product thumbnail" width="300">
+<br /><br />
+{% endif %}
+
+<p>{{ product.description }}</p>
+
+<hr>
+
+<p>
+  {% if product.discount > 0 %}
+    <del>Rp {{ product.price }}</del>
+    <b>Rp {{ product.final_price|floatformat:0 }}</b>
+    ({{ product.discount }}% OFF)
+  {% else %}
+    <b>Rp {{ product.price }}</b>
+  {% endif %}
+</p>
+
+{% endblock content %}
