@@ -120,7 +120,7 @@ Django **AuthenticationForm** adalah form bawaan dari Django yang berfungsi untu
 ## Kelebihan dan Kekurangan Session dan Cookies
 **Session** adalah mekanisme penyimpanan state di sisi server. **Cookies** adalah data kecil yang diimpan di sisi client (browser) yang digunakan untuk menyimpan informasi ringan, seperti informasi login terakhir.
 
-*Kelebihan masing-masing:**
+**Kelebihan masing-masing:**
 - Session: Lebih aman karena data sensitif tifak terlihat di client, bisa menyimpan data lebih besar dan kompleks, dan terintegrasi dengan autentikasi User Django.
 - Cookies: Mudah diimplementasikan, bisa menyimpan preferensi ringan langsung di client, dan tidak membebani server.
 
