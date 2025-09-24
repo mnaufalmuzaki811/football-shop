@@ -89,7 +89,75 @@ Tutorial dan tugas sudah sangat jelas dan pastinya membantu saya untuk memahami 
 ![JSON by ID](image/JSON%20by%20ID.png)
 
 
+# Tugas 3 PBP: Implementasi Autentikasi, Session, dan Cookies pada Django
+
+## Apa itu `AuthenticationForm`? Apa Kelebihan dan Kekurangannya?
+Django **AuthenticationForm** adalah form bawaan dari Django yang berfungsi untuk melakukan autentikasi (login) pengguna. Form ini memvalidasi input username dan password dengan memeriksa apakah kredensial tersebut sesuai dengan data pengguna yang terdaftar di sistem.
+
+**Kelebihan:**
+- Mudah digunakan karena ini adalah bawaan dari Django.
+- Menggunakan keamanan standar.
+- Terintegrasi langsung dengan sistem `User`.
+- Bisa dilakukan koustomisasi.
+
+**Kekurangan:**
+- Kurang fleksibel untuk program tampilan/login yang lebih kompleks.
+- Terikat dengan model User Standar
+
+## Perbedaan Autentikasi dan Otorisasi
+**Autentikasi (Authentication)** adalah proses memverifikasi identitas pengguna, seperti menjawab pertanyaan *"Siapa yang login sekarang?"*
+
+**Otorisasi (Authorization)** adalah proses menentukan hak akses pengguna terhadap sumber daya tertentu, seperti menjawab pertanyaan *"Apa yang boleh kamu lakukan?"*
+
+**Perbedaan Utama:**
+- Waktu yang digunakan: Autentikasi dijalankan saat kita hendak login, sedangkan otorisasi adalah setelah melakukan login.
+- Tujuan program: Autentikasi digunakan untuk memverifikasi pengguna saat login, sedangkan otorisasi digunakan untuk menentukan apa saja hal yang bisa dilakukan oleh pengguna setelah login.
+
+**Implementasi di Django:**
+- Django menyediakan sistem **autentikasi** melalui `django.contrib.auth` dengan fungsi `authenticate()`, `login()`, dan `logout()`.  
+- Django juga menyediakan sistem **otorisasi** melalui model `User`, `Groups`, dan `Permissions`. Kita dapat memanfaatkan decorator (`@login_required`, `@permission_required`) dan atribut seperti `user.is_staff` atau `user.has_perm()` untuk membatasi akses.
+
+## Kelebihan dan Kekurangan Session dan Cookies
+**Session** adalah mekanisme penyimpanan state di sisi server. **Cookies** adalah data kecil yang diimpan di sisi client (browser) yang digunakan untuk menyimpan informasi ringan, seperti informasi login terakhir.
+
+*Kelebihan masing-masing:**
+- Session: Lebih aman karena data sensitif tifak terlihat di client, bisa menyimpan data lebih besar dan kompleks, dan terintegrasi dengan autentikasi User Django.
+- Cookies: Mudah diimplementasikan, bisa menyimpan preferensi ringan langsung di client, dan tidak membebani server.
+
+**Kekurangan masing-masing:**
+- Session: Membebani server jika terlalu banyak session aktif, butuh mekanisme manajemen, dan tidak bisa diakses offline oleh client.
+- Cookies: Rentan dicuri (XSS) jika tidak dienkripsi, kapasitas terbatas, dan mudah dimanipulasi user.
+
+## Penggunaan Cookies dan Risiko Keamanannya
+Cookies tidak sepenuhnya aman secara default. Berikut beberapa risiko keamanan yang umum dan bisa terjadi jika tidak dikonfigurasi dengan benar:
+- CSRF (Cross-Site Request Forgery), cookies dikirim otomatis ke server sehingga bisa dieksploitasi.
+- XSS (Cross-Site Scripting), script berbahaya dapat mencuri cookies.
+- Session hijacking, cookies session dicuri yang dapat dipakai untuk login user lain.
+- Cookie tampering, cookies bisa dimodifikasi langsung oleh user.
+
+Django menangani hal ini dengan beberapa mekanisme keamanan:
+- Menggunakan session cookies yang hanya ID di client, dan data asli di server.
+- Mendukung *encrypted cookies* agar tidak dimanipulasi.
+- Menyedikan CSRF Protection di form POST.
+
+## Implementasi Checklist Tugas 4 (Step by Step)
+Pertama-tama, referensi utama saya dalam mengerjakan tugas ini adalah berasal dari Tutorial 3 PBP Autentikasi, Session, Cookies dan Selenium. Berikut urutannya,
+- Saya membuat implementasi dan *setup* awal untuk fungsi registrasi, login, dan logout. Pada file `views.py` di folder aplikasi, saya mengimplementasikan fungsi `register()`, `login_user()`, dan `logout_user()`. Lalu, saya mengonfigurasikan *routing* pada `urls.py` di folder `main` untuk mengatur *end-point* dari implementasi fungsi-fungsi tersebut. Terakhir, saya mengatur tampilan dari program register, login, dan logout pada folder Template. 
+- Saya menghubungkan model `Product` dan `User` dan melakukan migrasi model supaya kedua model tersebut terintegrasi dan termigrasi.
+- Saya mengonfigurasikan cookies di aplikasi tersebut agar bisa menyimpan riwayat login.
+- Setelah semua implementasi dilakukan, saya melakukan uji coba untuk melakukan register untuk User pertama dengan username `naufal1` dan saya mencoba menambahkan beberapa objek produk. Saya juga mencoba untuk menambahkan User kedua dengan username `naufal2` dan mencoba menambahkan beberapa objek produk. 
+- Saat aplikasi saya sudah berjalan dengan baik, saya menambahkan `README.md` untuk menjawab pertanyaan-pertanyaan pada tugas 4 ini.
+- Terakhir, saya akan melakukan serangkaian `add`-`commit`-`push` ke GitHub dan deploy pembaruan aplikasi tersebut ke PWS.
+
 # Referensi
+- [PBP Ganjil 25/26 Fasilkom UI](https://pbp-fasilkom-ui.github.io/ganjil-2026/docs)
 - [Perbandingan antara XML dan JSON – UltaHost Blog](https://ultahost.com/blog/id/perbandingan-antara-xml-dan-json-mana-yang-lebih-baik/)  
-- [Django Form API Documentation](https://docs.djangoproject.com/en/5.2/ref/forms/api/)  
-- [Django CSRF Documentation](https://docs.djangoproject.com/en/5.2/ref/csrf/)
+- [Django Documentation - Form API](https://docs.djangoproject.com/en/5.2/ref/forms/api/)  
+- [Django Documentation - CSRF](https://docs.djangoproject.com/en/5.2/ref/csrf/)
+- [Django Documentation – AuthenticationForm](https://docs.djangoproject.com/en/stable/topics/auth/default/#django.contrib.auth.forms.AuthenticationForm)
+- [RealPython – Django User Management](https://realpython.com/django-user-management/)
+- [Django Authentication System](https://docs.djangoproject.com/en/stable/topics/auth/default/)  
+- [Django Authorization](https://docs.djangoproject.com/en/stable/topics/auth/default/#permissions-and-authorization)  
+- [GeeksforGeeks – Authentication vs Authorization](https://www.geeksforgeeks.org/difference-between-authentication-and-authorization/)
+- [GeeksforGeeks – Session vs Cookies](https://www.geeksforgeeks.org/difference-between-session-and-cookies/)
+- [Django Cookie Settings](https://docs.djangoproject.com/en/stable/ref/settings/#sessions)

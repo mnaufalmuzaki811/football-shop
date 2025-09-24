@@ -30,4 +30,10 @@
   {% endif %}
 </p>
 
+{% if product.user %}
+    <p>Penjual: {{ product.user.username }}</p>
+{% else %}
+    <p>Penjual: Anonymous</p>
+{% endif %}
+
 {% endblock content %}
