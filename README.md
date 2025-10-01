@@ -149,6 +149,138 @@ Pertama-tama, referensi utama saya dalam mengerjakan tugas ini adalah berasal da
 - Saat aplikasi saya sudah berjalan dengan baik, saya menambahkan `README.md` untuk menjawab pertanyaan-pertanyaan pada tugas 4 ini.
 - Terakhir, saya akan melakukan serangkaian `add`-`commit`-`push` ke GitHub dan deploy pembaruan aplikasi tersebut ke PWS.
 
+
+# Tugas 5 PBP: Desain Web menggunakan HTML, CSS dan Framework CSS
+
+## Urutan Prioritas CSS Selector
+Berikut urutan *style* akhir berdasarkan prioritas ketika terdapat beberapa CSS selector yang berlaku pada suatu elemen HTML:
+
+1. **Origin & Importance**
+   - `!important` dari user.
+   - `!important` dari author.
+   - Deklarasi biasa dari author.
+   - Deklarasi biasa dari user.
+   - Deklarasi bawaan browser (user-agent).
+
+2. **Cascade Layers (@layer)**
+   - Layer yang dideklarasikan terakhir memiliki prioritas lebih tinggi daripada layer sebelumnya.
+
+3. **Specificity (Kekhususan Selektor)**
+   - Inline style `(1,0,0,0)`
+   - ID selector `(0,1,0,0)`
+   - Class, attribute, pseudo-class `(0,0,1,0)`
+   - Type selector, pseudo-element `(0,0,0,1)`
+   - Urutan prioritas: Inline > ID > Class/Attribute/Pseudo-class > Type > *
+
+4. **Source Order**
+   - Jika semua sama, deklarasi yang muncul paling akhir dalam file CSS akan menang.
+
+## Pentingnya Responsive Design dalam Pengembangan Aplikasi Web
+Responsive design adalah pendekatan desain yang membuat tampilan website atau aplikasi web dapat menyesuaikan diri dengan berbagai ukuran layar dan perangkat (desktop, tablet, smartphone). Konsep ini penting karena:
+
+- **Meningkatkan pengalaman pengguna (user experience)**, tampilan tetap nyaman dan mudah digunakan pada berbagai perangkat.  
+- **Mengurangi biaya pengembangan**, cukup satu kode untuk semua platform tanpa perlu membuat versi terpisah untuk mobile dan desktop.  
+- **SEO-friendly**, mesin pencari seperti Google memprioritaskan situs yang mobile-friendly dalam hasil pencarian.  
+- **Meningkatkan aksesibilitas**, sehingga pengguna dari berbagai perangkat dapat mengakses konten dengan optimal.  
+- **Memperluas jangkauan audiens**, terutama karena mayoritas pengguna internet saat ini menggunakan perangkat mobile.
+
+
+## Contoh Aplikasi
+
+### Sudah Menerapkan Responsive Design
+**Contoh:** [Tokopedia](https://www.tokopedia.com)  
+- Tampilan halaman otomatis menyesuaikan ketika dibuka di smartphone atau desktop.  
+- Elemen navigasi berubah menjadi hamburger menu di layar kecil.  
+- Konten tetap terbaca dan tombol dapat diakses dengan mudah tanpa zoom.
+
+### Belum Menerapkan Responsive Design
+**Contoh:** [Old Reddit](https://old.reddit.com)
+- Saat dibuka di ponsel, tampilan terlalu kecil dan pengguna harus zoom manual.  
+- Elemen layout tumpang tindih dan navigasi sulit diakses.  
+- Pengalaman pengguna menurun drastis pada layar kecil.
+
+## Perbedaan Margin, Border, dan Padding
+
+Dalam CSS, **margin**, **border**, dan **padding** merupakan bagian dari *box model* yang digunakan untuk mengatur ruang di dalam dan di sekitar elemen.
+
+### 1. Margin
+- Memberikan **jarak di luar elemen**, memisahkan elemen tersebut dengan elemen lainnya.  
+- Tidak memiliki warna atau background.  
+- Dapat bernilai positif atau negatif untuk mengatur posisi elemen terhadap elemen lain.
+
+Contoh Implementasi:
+```
+.box {
+  margin: 20px; /* Memberikan jarak luar sebesar 20px di semua sisi */
+}
+```
+
+### 2. Border
+- Berada di antara padding dan margin, berfungsi sebagai garis pembatas elemen.
+- Dapat diatur warna, ketebalan, dan gaya garis (solid, dashed, dotted, dll).
+- Termasuk dalam perhitungan ukuran total elemen.
+
+Contoh Implementasi:
+```
+.box {
+  border: 2px solid black;
+}
+```
+
+### 3. Padding
+- Memberikan jarak di dalam elemen, antara konten dan border.
+- Mempengaruhi area background elemen.
+- Tidak dapat bernilai negatif.
+
+Contoh Implementasi:
+```
+.box {
+  padding: 15px;
+}
+```
+
+## Konsep Flexbox dan Grid Layout dalam CSS
+
+Dalam CSS, **Flexbox** dan **Grid Layout** adalah dua sistem tata letak (*layout system*) modern yang digunakan untuk mengatur posisi dan susunan elemen dengan lebih fleksibel dibandingkan metode lama seperti `float` atau `table`.
+
+### 1. Flexbox (Flexible Box Layout)
+**Flexbox** digunakan untuk menyusun elemen dalam **satu dimensi** — baik secara horizontal (*row*) maupun vertikal (*column*).  
+Cocok untuk membuat layout **baris atau kolom tunggal** yang responsif, seperti navbar, card list, atau alignment konten.
+
+#### Kegunaan Flexbox
+- Mengatur **alignment horizontal dan vertikal** dengan mudah.  
+- Membuat elemen **secara otomatis menyesuaikan ruang kosong**.  
+- Sangat cocok untuk tata letak sederhana dan responsif.
+
+### 2. Grid Layout
+**CSS Grid**digunakan untuk menyusun elemen dalam dua dimensi — baris dan kolom secara bersamaan.
+Cocok untuk membuat layout kompleks, seperti struktur halaman (header, sidebar, content, footer) atau galeri.
+
+### Kegunaan Grid Layout
+- Mengatur tata letak dua dimensi (baris dan kolom) dengan presisi.
+- Cocok untuk layout halaman penuh atau dashboard.
+- Lebih mudah untuk mengatur ukuran area tanpa perlu nested div berlebihan.
+
+## Implementasi Checklist Tugas 5 (Step by Step)
+
+Referensi utama saya dalam mengerjakan tugas ini adalah berasal dari Tutorial 4: Desain Web Menggunakan HTML dan CSS3 & Metode Update dan Delete pada Data. Berikut urutannya,
+
+### 1. Persiapan dan Konfigurasi Aplikasi proyek
+Saya mengaktifkan aplikasi dan komponen inti di `settings/py`, yakni `INSTALLED_APPS` dan `MIDDLEWARE`. Saya juga menyusun direktori `templates/` dan `static`.
+
+### 2. Edit & Delete Product (Khusus akun pengguna yang sedang login)
+Langkah pertama yang saya lakukan adalah membuat fungsi untuk mengedit dan menghapus produk. Saya menambahkan route baru di `urls.py` untuk `edit_product` dan `delete_product`.
+
+### 3. Kustomisasi Desain Halaman
+Selanjutnya, saya melakukan kustomisasi tampilan halaman login, register, tambah, edit, dan detail produk dengan menggunakan Tailwind CSS agar konsisten, bersih, dan responsif. Saya juga mengostumisasi halaman daftar produk, membuat grid responsif, dan navbar yang responsif.
+
+### 4. Pengujian Fungsional dan Pembuatan README
+Saya mencoba melakukan pengujian aplikasi saya dengan membuat akun, login, melihat detail produk, mengedit produk, menghapus produk, dan mencoba navbar. Saat aplikasi saya sudah berjalan dengan baik, saya menambahkan `README.md` untuk menjawab pertanyaan-pertanyaan pada tugas 5 ini.
+
+### 5. Push dan Deploy Aplikasi
+Terakhir, saya akan melakukan serangkaian `add`-`commit`-`push` ke GitHub dan deploy pembaruan aplikasi tersebut ke PWS.
+
+
 # Referensi
 - [PBP Ganjil 25/26 Fasilkom UI](https://pbp-fasilkom-ui.github.io/ganjil-2026/docs)
 - [Perbandingan antara XML dan JSON – UltaHost Blog](https://ultahost.com/blog/id/perbandingan-antara-xml-dan-json-mana-yang-lebih-baik/)  
@@ -161,3 +293,4 @@ Pertama-tama, referensi utama saya dalam mengerjakan tugas ini adalah berasal da
 - [GeeksforGeeks – Authentication vs Authorization](https://www.geeksforgeeks.org/difference-between-authentication-and-authorization/)
 - [GeeksforGeeks – Session vs Cookies](https://www.geeksforgeeks.org/difference-between-session-and-cookies/)
 - [Django Cookie Settings](https://docs.djangoproject.com/en/stable/ref/settings/#sessions)
+- [W3C — CSS Cascade 5](https://www.w3.org/TR/css-cascade-5/)

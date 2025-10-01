@@ -1,0 +1,111 @@
+{% load static %}
+
+<!-- Gradient hairline wrapper -->
+<div class="rounded-2xl bg-gradient-to-br from-emerald-200/60 via-emerald-100 to-sky-200/60 p-[1px] hover:from-emerald-300/80 hover:to-sky-300/80 transition-colors duration-300">
+  <article class="group relative overflow-hidden rounded-[15px] bg-white border border-gray-100 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+
+    <!-- Ribbon Diskon (diagonal) -->
+    {% if product.discount|default:0 > 0 %}
+    <div class="pointer-events-none absolute -right-9 top-4 z-20 rotate-45 bg-red-600 px-10 py-1 text-[11px] font-semibold tracking-wide text-white shadow">
+      {{ product.discount }}% OFF
+    </div>
+    {% endif %}
+
+    <!-- Thumbnail -->
+    <div class="relative aspect-[4/3] overflow-hidden">
+      {% if product.thumbnail %}
+        <img src="{{ product.thumbnail }}" alt="{{ product.name }}"
+             class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+      {% else %}
+        <div class="flex h-full w-full items-center justify-center bg-gray-100 text-gray-400">
+          No Image
+        </div>
+      {% endif %}
+
+      <!-- Category & status chips on image -->
+      <div class="absolute left-3 top-3 z-10 flex flex-wrap gap-2">
+        <span class="rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-gray-800 shadow">
+          {{ product.get_category_display|default:product.category }}
+        </span>
+        {% if product.is_featured %}
+          <span class="rounded-full bg-yellow-100 px-3 py-1 text-[11px] font-semibold text-yellow-800 shadow">
+            Featured
+          </span>
+        {% endif %}
+        {% if product.stock|default:0 == 0 %}
+          <span class="rounded-full bg-red-100 px-3 py-1 text-[11px] font-semibold text-red-700 shadow">
+            Out of Stock
+          </span>
+        {% endif %}
+      </div>
+
+      <!-- Bottom gradient overlay subtle -->
+      <div class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/25 to-transparent"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="p-5">
+      <!-- Meta row -->
+      <div class="mb-3 flex items-center text-xs text-gray-500">
+        <time datetime="{{ product.created_at|date:'c' }}">{{ product.created_at|date:"d M Y" }}</time>
+        <span class="mx-2">•</span>
+        <span class="inline-flex items-center gap-1">
+          <!-- dot stock -->
+          {% if product.stock|default:0 > 0 %}
+            <span class="inline-block h-2 w-2 rounded-full bg-emerald-500"></span>
+            In stock: {{ product.stock }}
+          {% else %}
+            <span class="inline-block h-2 w-2 rounded-full bg-red-500"></span>
+            Out of stock
+          {% endif %}
+        </span>
+      </div>
+
+      <!-- Title -->
+      <h3 class="mb-2 line-clamp-1 text-lg font-semibold text-gray-900">
+        <a href="{% url 'main:show_products' product.id %}" class="hover:text-emerald-700">
+          {{ product.name }}
+        </a>
+      </h3>
+
+      <!-- Price -->
+      <div class="mb-3 flex items-baseline gap-3">
+        {% if product.discount|default:0 > 0 %}
+          <span class="text-xl font-bold text-gray-900">Rp {{ product.final_price|floatformat:0 }}</span>
+          <del class="text-sm text-gray-500">Rp {{ product.price }}</del>
+        {% else %}
+          <span class="text-xl font-bold text-gray-900">Rp {{ product.price }}</span>
+        {% endif %}
+      </div>
+
+      <!-- Desc -->
+      <p class="mb-4 line-clamp-2 text-sm leading-relaxed text-gray-600">
+        {{ product.description|default:"No description available." }}
+      </p>
+
+      <!-- CTA -->
+      <div class="flex items-center justify-between border-t border-gray-100 pt-4">
+        <a href="{% url 'main:show_products' product.id %}"
+           class="inline-flex items-center gap-1 rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+          View
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+
+        {% if user.is_authenticated and product.user == user %}
+        <div class="flex gap-2">
+          <a href="{% url 'main:edit_product' product.pk %}"
+             class="rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700">
+            Edit
+          </a>
+          <a href="{% url 'main:delete_product' product.pk %}"
+             class="rounded-lg bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700">
+            Delete
+          </a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </article>
+</div>
